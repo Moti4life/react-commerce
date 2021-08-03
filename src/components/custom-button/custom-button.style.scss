@@ -4,7 +4,7 @@
     height: 50px;
     letter-spacing: 0.5px;
     line-height: 50px;
-    padding: 0 1rem 0 1rem;
+    
     font-size: 15px;
     background-color: black;
     color: white;
@@ -29,6 +29,17 @@
         background-color: #3568b9;
         color: rgb(219, 219, 219);
         border: none;
+      }
+    }
+
+    &.inverted{
+      background-color: white;
+      color: black;
+      border: 1px solid black;
+
+      &:hover{
+        background-color: black;
+        color: white;
       }
     }
   }
