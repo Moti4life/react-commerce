@@ -10,7 +10,7 @@ import { selectCurrentUser } from './redux/user/user-selector';
 
 // pages
 import {HomePage} from './pages/homepage/homepage.component'
-import {ShopPage} from './pages/shopPage/shop.component'
+import ShopPage from './pages/shopPage/shop.component'
 import { SignInAndSignUpPage } from './pages/sign-in-and-up-page/sign-in-and-up-page.component';
 import CheckoutPage from './pages/checkout-page/checkout.component';
 
