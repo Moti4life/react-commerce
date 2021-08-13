@@ -15,6 +15,8 @@ const firebaseConfig = {
     measurementId: "G-S0PFGQE53C"
 }
 
+firebase.initializeApp(firebaseConfig)
+
 const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth){
         return
@@ -22,13 +24,16 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
 
     const userRef = firestore.doc(`users/${userAuth.uid}`)
 
+    //get snapShot
     const snapShot = await userRef.get()
+    //console.log(snapShot.data());
 
     if(!snapShot.exists){
         const { displayName, email } = userAuth
         const createdAt = new Date()
 
         try {
+            //create new document
             await userRef.set({
                 displayName,
                 email,
@@ -47,12 +52,53 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
 }
 
 
-firebase.initializeApp(firebaseConfig)
+// add data to firebase
+const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+
+    const collectionRef = firestore.collection(collectionKey)
+    console.log('****collectionRef****', collectionRef);
+
+    const batch = firestore.batch()
+    objectsToAdd.forEach( obj => {
+        const newDocRef = collectionRef.doc()
+        //console.log(newDocRef);
+
+        batch.set(newDocRef, obj)
+    })
+
+    // fire batch commit
+    return await batch.commit()
+}
+
+// get data from firebase
+
+const convertCollectionsSnapshotToMap = (collections) => {
+
+    const transformedCollection = collections.docs.map( (doc) => {
+        const { title, items } = doc.data()
+
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            title,
+            items
+        }
+    })   
+    
+    //console.log('TRANSFORM COLLECTION', transformedCollection);
+
+    return transformedCollection.reduce( (accumulator, collection) => {
+        accumulator[collection.title.toLowerCase()] = collection
+        return accumulator
+    }, {} )
+} 
 
 
 const auth = firebase.auth()
 const firestore = firebase.firestore()
 
+
+// google provider
 const provider = new firebase.auth.GoogleAuthProvider()
 provider.setCustomParameters({ prompt: 'select_account' })
 
@@ -61,4 +107,12 @@ const signInWithGoogle = () => {
 }
 
 
-export {auth , firestore, signInWithGoogle, createUserProfileDocument} 
+export {
+    auth, 
+    firestore, 
+    signInWithGoogle, 
+    createUserProfileDocument, 
+    addCollectionAndDocuments,
+    convertCollectionsSnapshotToMap
+
+} 
