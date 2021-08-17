@@ -1,4 +1,4 @@
-import { takeEvery } from "@redux-saga/core/effects";
+import { takeLatest } from "@redux-saga/core/effects";
 import { call } from "@redux-saga/core/effects";
 import { put } from "@redux-saga/core/effects";
 
@@ -33,7 +33,7 @@ export function* fetchCollectionsAsync() {
 
 //takeEvery is a non blocking call
 export function* fetchCollectionsStart() {
-    yield takeEvery(
+    yield takeLatest(
         ShopActionTypes.FETCH_COLLECTIONS_START, 
         fetchCollectionsAsync
     )

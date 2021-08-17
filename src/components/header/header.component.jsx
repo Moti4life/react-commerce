@@ -15,12 +15,12 @@ import  CartDropdown  from '../cart-dropdown/cart-dropdown.component.jsx'
 // trying out styled Components
 import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './header.styles'
 
-// let logme = (user) => {
-//     console.log('this log', user);
-// }
+let logme = (user) => {
+    console.log('this is me log', user);
+}
 
 const Header = ({ currentUser, hidden }) => {
-    //logme(currentUser)
+    logme(currentUser)
     return(
         <HeaderContainer>
         
@@ -36,7 +36,8 @@ const Header = ({ currentUser, hidden }) => {
                 </OptionLink>
                 {
                     currentUser ? (
-                        <OptionDiv onClick={ () => { auth.signOut()}}>{`Sign Out (${currentUser.currentUser.displayName})`}</OptionDiv>
+                        <OptionDiv onClick={ () => { auth.signOut()}}>{`Sign Out (${currentUser.displayName})`}</OptionDiv>
+                        
                     )
                     :
                     (
