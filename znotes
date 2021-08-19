@@ -276,3 +276,40 @@ export default connect(null, mapDispatchToProps)(SignIn)
 
 
 //==========================
+
+
+// signup saga
+
+// sign up
+
+export function* signUpWithEmail({ payload: { displayName, email, password  } }) {
+    yield console.log('fired signUpWithEmail');
+
+    try {
+        const { user } = yield auth.createUserWithEmailAndPassword(email, password)
+        const userRef = yield call(createUserProfileDocument, user, { displayName } )
+        const userSnapshot = yield userRef.get()
+        yield put(
+            signUpSuccess({
+                id: userSnapshot.id,
+                ...userSnapshot.data()
+            })
+        )
+        
+
+
+    } catch (error) {
+        yield put(signUpFailure(error))
+    }
+}
+
+
+export function* onEmailSignUpStart() {
+    yield takeLatest(
+        UserActionTypes.SIGN_UP_START,
+        signUpWithEmail
+    )
+}
+
+
+//===========================

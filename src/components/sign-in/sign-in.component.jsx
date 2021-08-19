@@ -21,6 +21,13 @@ class SignIn extends React.Component{
         }
     }
 
+    handleChange = (event) => {
+        
+        const { name, value } = event.target
+        this.setState({ [name]: value})
+
+    }
+
     handleSubmit = async (event) => {
         event.preventDefault()
         const { emailSignInStart } = this.props
@@ -30,12 +37,7 @@ class SignIn extends React.Component{
         
     }
 
-    handleChange = (event) => {
-        
-        const { name, value } = event.target
-        this.setState({ [name]: value})
-
-    }
+    
 
     render () {
         const { googleSignInStart } = this.props

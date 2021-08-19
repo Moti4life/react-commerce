@@ -13,7 +13,7 @@ export const googleSignInStart = () => ({
 })
 
 
-// success and failure
+// sign in success and failure
 export const signInSuccess = (user) => ({
   type: UserActionTypes.SIGN_IN_SUCCESS,
   payload: user
@@ -24,3 +24,43 @@ export const signInFailure = (error) => ({
   payload: error
 })
 
+
+//user session
+
+export const checkUserSession = () => ({
+  type: UserActionTypes.CHECK_USER_SESSION
+})
+
+
+//sign out
+
+export const signOutStart = () => ({
+  type: UserActionTypes.SIGN_OUT_START
+})
+
+export const signOutSuccess = () => ({
+  type: UserActionTypes.SIGN_OUT_SUCCESS
+})
+
+export const signOutFailure = (error) => ({
+  type: UserActionTypes.SIGN_OUT_FAILURE,
+  payload: error
+})
+
+//sign up
+
+export const signUpStart = (userDetails) => ({
+  type: UserActionTypes.SIGN_UP_START,
+  payload: userDetails
+})
+
+// { user, additionalData } destructured
+export const signUpSuccess = ({ user, additionalData }) => ({
+  type: UserActionTypes.SIGN_UP_SUCCESS,
+  payload: { user, additionalData }
+})
+
+export const signUpFailure = (error) => ({
+  type: UserActionTypes.SIGN_UP_FAILURE,
+  payload: error
+})

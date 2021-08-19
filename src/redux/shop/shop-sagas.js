@@ -1,6 +1,6 @@
 import { takeLatest } from "@redux-saga/core/effects";
 import { call } from "@redux-saga/core/effects";
-import { put } from "@redux-saga/core/effects";
+import { put, all } from "@redux-saga/core/effects";
 
 import { firestore } from "../../firebase/firebase.utils";
 import { convertCollectionsSnapshotToMap } from "../../firebase/firebase.utils";
@@ -9,6 +9,7 @@ import { fetchCollectionsSuccess } from "./shop-actions";
 import { fetchCollectionFailure } from "./shop-actions";
 
 import ShopActionTypes from "./shop-types";
+
 
 //gen function* needs yield
 
@@ -32,6 +33,7 @@ export function* fetchCollectionsAsync() {
 }
 
 //takeEvery is a non blocking call
+//takeLatest gets the latest call
 export function* fetchCollectionsStart() {
     yield takeLatest(
         ShopActionTypes.FETCH_COLLECTIONS_START, 
@@ -39,3 +41,9 @@ export function* fetchCollectionsStart() {
     )
 }
 
+//shopSagas
+export function* shopSagas() {
+    yield all([
+        call(fetchCollectionsStart)
+    ])
+}

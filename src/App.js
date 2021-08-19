@@ -7,6 +7,8 @@ import Header from './components/header/header.component';
 
 import { selectCurrentUser } from './redux/user/user-selector';
 
+import { checkUserSession } from './redux/user/user-actions';
+
 // for adding local test data to firebase
 /* import { selectCollectionsForPreview } from './redux/shop/shop-selectors';
 import { addCollectionAndDocuments } from './firebase/firebase.utils'; */
@@ -25,7 +27,8 @@ class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
-        
+        const { checkSession } = this.props
+        checkSession()
   }
 
   componentWillUnmount() {
@@ -61,10 +64,12 @@ const mapStateToProps = createStructuredSelector({
   
 })
 
-/* const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch) => ({
   // setCurrentUser: user => dispatch(setCurrentUser(user))
-}) */
+  checkSession: () => dispatch(checkUserSession())
+})
 
 export default connect(
-  mapStateToProps  
+  mapStateToProps,
+  mapDispatchToProps 
 )(App)

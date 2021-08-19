@@ -20,4 +20,7 @@ export const removeItem = (item) => ({
 })
 
 
+export const clearCartitems = () => ({
+    type: CartActionTypes.CLEAR_CART
+})
 

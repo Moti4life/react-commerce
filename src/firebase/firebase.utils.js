@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig)
 
-const createUserProfileDocument = async (userAuth, additionalData) => {
+export const createUserProfileDocument = async (userAuth, additionalData) => {
     if (!userAuth){
         return
     }
@@ -53,7 +53,7 @@ const createUserProfileDocument = async (userAuth, additionalData) => {
 
 
 // add data to firebase
-const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+/* const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
 
     const collectionRef = firestore.collection(collectionKey)
     console.log('****collectionRef****', collectionRef);
@@ -68,11 +68,11 @@ const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
 
     // fire batch commit
     return await batch.commit()
-}
+} */
 
 // get data from firebase
 
-const convertCollectionsSnapshotToMap = (collections) => {
+export const convertCollectionsSnapshotToMap = (collections) => {
 
     const transformedCollection = collections.docs.map( (doc) => {
         const { title, items } = doc.data()
@@ -93,9 +93,18 @@ const convertCollectionsSnapshotToMap = (collections) => {
     }, {} )
 } 
 
+export const getCurrentUser = () => {
+    return new Promise( (resolve, reject) => {
+        const unsbuscribe = auth.onAuthStateChanged(userAuth => {
+            unsbuscribe()
+            resolve(userAuth)
+        }, reject )
+    })
+}
 
-const auth = firebase.auth()
-const firestore = firebase.firestore()
+
+export const auth = firebase.auth()
+export const firestore = firebase.firestore()
 
 
 // google provider
@@ -107,11 +116,3 @@ export const signInWithGoogle = () => {
 }
 
 
-export {
-    auth, 
-    firestore, 
-    createUserProfileDocument, 
-    addCollectionAndDocuments,
-    convertCollectionsSnapshotToMap
-
-} 
