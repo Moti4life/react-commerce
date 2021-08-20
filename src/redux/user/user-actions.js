@@ -47,7 +47,7 @@ export const signOutFailure = (error) => ({
   payload: error
 })
 
-//sign up
+//sign up userDetails as object
 
 export const signUpStart = (userDetails) => ({
   type: UserActionTypes.SIGN_UP_START,

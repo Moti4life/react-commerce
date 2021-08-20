@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react'
 import { FormInput } from '../form-input/form-input.component'
 import { CustomButton } from '../custom-button/custom-button.component'
 
@@ -6,40 +7,35 @@ import { connect } from 'react-redux'
 
 import { signUpStart } from '../../redux/user/user-actions'
 
-//import { auth, createUserProfileDocument } from '../../firebase/firebase.utils'
 
 import './sign-up.style.scss'
 
-class SignUp extends React.Component {
-    constructor() {
-        super()
 
 
-        this.state = {
-            displayName: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
-        }
-    }
+const SignUp = ({ signUpStart } ) => {
+    
+    const [credentials, setCredentials] = useState({ 
+        displayName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+    })
 
-    handleChange = (event) => {
+    const handleChange = (event) => {
         
         const { name, value } = event.target
-        this.setState( { [name]: value} )
-
+        setCredentials({ ...credentials, [name]: value })
     }
 
-    handleSubmit =  ( async (event) => {
-        event.preventDefault()
+    const {
+        displayName,
+        email,
+        password,
+        confirmPassword 
+    } = credentials
 
-        const { signUpStart } = this.props
-        const {
-            displayName,
-            email,
-            password,
-            confirmPassword 
-        } = this.state
+    const handleSubmit =  ( async (event) => {
+        event.preventDefault()       
 
         if(password !== confirmPassword) {
             alert('passwords does not match')
@@ -48,88 +44,64 @@ class SignUp extends React.Component {
 
         signUpStart(displayName, email, password )
 
-        /* try {
-
-            const { user } = await auth.createUserWithEmailAndPassword(email, password)
-            createUserProfileDocument(user, { displayName })
-
-            this.setState = {
-                displayName: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            }
-
-        } catch (error) {
-            console.log('error occured with creating user', error);
-        } */
-
     })
 
-    render() {
-        const {
-            displayName,
-            email,
-            password,
-            confirmPassword 
-        } = this.state
+    return(
+        <div className='sign-up'>
+            <h2 className='title'>Create an Account?</h2>
+            
+            <span>SIgn up with your email and password</span>
 
-        return(
-            <div className='sign-up'>
-                <h2 className='title'>Create an Account?</h2>
+            <form className='sign-up-form' onSubmit={handleSubmit}>
+                <FormInput 
+                    type="text" 
+                    name='displayName' 
+                    value={displayName} 
+                    label='Display Name' 
+                    handleChange={handleChange}
+                    required
+                    
+                />
+
+                <FormInput 
+                    type="email" 
+                    name='email' 
+                    value={email} 
+                    label='Email'
+                    handleChange={handleChange}
+                    required 
+                    
+                />
                 
-                <span>SIgn up with your email and password</span>
+                <FormInput 
+                    type="password" 
+                    name='password' 
+                    value={password} 
+                    label='Password'
+                    handleChange={handleChange}
+                    required 
+                    
+                />
 
-                <form className='sign-up-form' onSubmit={this.handleSubmit}>
-                    <FormInput 
-                        type="text" 
-                        name='displayName' 
-                        value={displayName} 
-                        label='Display Name' 
-                        handleChange={this.handleChange}
-                        required
-                        
-                    />
-
-                    <FormInput 
-                        type="email" 
-                        name='email' 
-                        value={email} 
-                        label='Email'
-                        handleChange={this.handleChange}
-                        required 
-                        
-                    />
+                <FormInput 
+                    type="password" 
+                    name='confirmPassword' 
+                    value={confirmPassword} 
+                    label='Confirm Password'
+                    handleChange={handleChange}
+                    required 
                     
-                    <FormInput 
-                        type="password" 
-                        name='password' 
-                        value={password} 
-                        label='Password'
-                        handleChange={this.handleChange}
-                        required 
-                        
-                    />
-
-                    <FormInput 
-                        type="password" 
-                        name='confirmPassword' 
-                        value={confirmPassword} 
-                        label='Confirm Password'
-                        handleChange={this.handleChange}
-                        required 
-                        
-                    />
-                    
-                    <div className='buttons'>
-                    <CustomButton type="submit">Sign Up</CustomButton>
-                    
-                    </div>
-                    
-                </form>
-            </div>
-        )
-    }
+                />
+                
+                <div className='buttons'>
+                <CustomButton type="submit">Sign Up</CustomButton>
+                
+                </div>
+                
+            </form>
+        </div>
+    )
+    
 }
 
 const mapDispatchToProps = dispatch => ({

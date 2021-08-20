@@ -313,3 +313,227 @@ export function* onEmailSignUpStart() {
 
 
 //===========================
+
+
+sign in component using class
+
+class SignIn extends React.Component{
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+
+    handleChange = (event) => {
+        
+        const { name, value } = event.target
+        this.setState({ [name]: value})
+
+    }
+
+    handleSubmit = async (event) => {
+        event.preventDefault()
+        const { emailSignInStart } = this.props
+        const { email, password } = this.state
+
+        emailSignInStart(email, password)
+        
+    }
+
+    
+
+    render () {
+        const { googleSignInStart } = this.props
+        return (
+            <div className='sign-in'>
+                <h2>Have an Account?</h2>
+                
+                <span>SIgn in with your email and password</span>
+
+                <form onSubmit={this.handleSubmit}>
+                    <FormInput 
+                        type="email" 
+                        name='email' 
+                        value={this.state.email} 
+                        label='your Email' 
+                        handleChange={this.handleChange}
+                        required
+                        
+                    />
+                    
+                    <FormInput 
+                        type="password" 
+                        name='password' 
+                        value={this.state.password} 
+                        label='Password'
+                        handleChange={this.handleChange}
+                        required 
+                        
+                    />
+                    
+                    <div className='buttons'>
+                    <CustomButton type="submit">Sign In</CustomButton>
+                    <CustomButton 
+                        type='button' 
+                        onClick={googleSignInStart} 
+                        isGoogleSignInBtn>Sign In With Google</CustomButton>
+                    </div>
+                    
+                </form>
+            </div>
+        )
+    }
+
+}
+
+const mapDispatchToProps = (dispatch) => ({
+    googleSignInStart: () => dispatch(googleSignInStart()),
+    emailSignInStart: (email, password) => dispatch(emailSignInStart({ email, password }))
+  })
+
+
+export default connect(null, mapDispatchToProps)(SignIn)
+
+//=========================
+
+app.js class
+
+import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import Header from './components/header/header.component';
+
+import { selectCurrentUser } from './redux/user/user-selector';
+
+import { checkUserSession } from './redux/user/user-actions';
+
+// for adding local test data to firebase
+/* import { selectCollectionsForPreview } from './redux/shop/shop-selectors';
+import { addCollectionAndDocuments } from './firebase/firebase.utils'; */
+
+// pages
+import {HomePage} from './pages/homepage/homepage.component'
+import ShopPage from './pages/shopPage/shop.component'
+import { SignInAndSignUpPage } from './pages/sign-in-and-up-page/sign-in-and-up-page.component';
+import CheckoutPage from './pages/checkout-page/checkout.component';
+
+// style
+import './App.css';
+
+class App extends React.Component {
+  
+  unsubscribeFromAuth = null
+
+  componentDidMount() {
+        const { checkSession } = this.props
+        checkSession()
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeFromAuth()
+  }
+
+  render () {
+    return (
+      <div>
+        <Header />
+        <Switch>
+          <Route exact path='/' component={HomePage} />
+          <Route path='/shop' component={ShopPage} />
+          <Route exact path='/checkout' component={CheckoutPage} />
+          <Route exact path='/signin' render={ () => (
+            this.props.currentUser ?(
+              <Redirect to='/' />
+            ) : (
+              <SignInAndSignUpPage />
+            )
+            
+
+          )} />
+        </Switch>
+      </div>
+    )
+  }
+  
+}
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+  
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  // setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkSession: () => dispatch(checkUserSession())
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps 
+)(App)
+
+//============================================
+
+
+shop component class
+
+import React from 'react'
+import { Route } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+
+import CollectionsOverviewContainer from '../../components/collections-overview/collections-container'
+import CollectionPageContainer from '../collection/collection.container'
+
+
+
+import { fetchCollectionsStart } from '../../redux/shop/shop-actions'
+
+
+
+class ShopPage extends React.Component {
+
+    componentDidMount() {
+
+        const { fetchCollectionsStart } = this.props
+        fetchCollectionsStart()
+        
+    
+    }
+
+    render() {
+        const { match } = this.props
+        
+
+        return (
+            <div className='shop-page'>
+            <Route 
+                exact path={`${match.path}`} 
+                component={CollectionsOverviewContainer}
+            />
+            <Route 
+                path={`${match.path}/:collectionId`} 
+                component={CollectionPageContainer}
+            />
+        </div>
+        )
+    }
+    
+}
+
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
+})
+
+
+
+export default connect(null, mapDispatchToProps)(ShopPage)
+
+
+//=======================
