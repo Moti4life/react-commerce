@@ -1,6 +1,18 @@
 import express from 'express'
 import path from 'path'
 import dotenv from 'dotenv'
+const __dirname = path.resolve();
+
+// https://nodejs.org/docs/latest-v15.x/api/esm.html#esm_no_filename_or_dirname
+// import { fileURLToPath } from 'url';
+// import { dirname } from 'path';
+
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
+
+// or much better for ES6
+// import path from 'path'
+// const __dirname = path.resolve();
 
 if (process.env.NODE_ENV != 'production') {
     dotenv.config()
@@ -13,7 +25,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 const app = express()
 const port = process.env.PORT || 5000
 
-
 app.use(express.urlencoded( { extended: true } ))
 app.use(express.json())
 
@@ -25,10 +36,12 @@ if (process.env.NODE_ENV == 'production'){
     })
 }
 
+
 app.listen(port, (error) => {
     if(error) throw error
     console.log('app running on port: ', port);
     // console.log(process.env.POGI_STRING);
+    //console.log(path.join(__dirname, 'client/build', 'index.html'))
 })
 
 app.post('/payment', (req, res) => {
