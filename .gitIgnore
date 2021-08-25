@@ -25,5 +25,5 @@ yarn-error.log*
 
 /config
 
-/server/node_modules
-/server/.env
+/node_modules
+/.env
