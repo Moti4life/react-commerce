@@ -32,7 +32,7 @@
         transition: transform 6s cubic-bezier(0.25, 0.45, 0.45, 0.95);
       }
       & .content {
-        opacity: 90%;
+        opacity: 0.9;
       }
     }
 
@@ -56,7 +56,7 @@
       justify-content: center;
       border: 1px solid black;
       background-color: rgb(241, 241, 241);
-      opacity: 80%;
+      opacity: 0.75;
       position: absolute;
   
       .title {

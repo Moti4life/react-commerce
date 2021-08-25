@@ -15,12 +15,12 @@ import { signOutStart } from '../../redux/user/user-actions'
 // trying out styled Components
 import { HeaderContainer, LogoContainer, OptionsContainer, OptionLink, OptionDiv } from './header.styles'
 
-let logme = (user) => {
-    console.log('this is me log', user);
-}
+// let logme = (user) => {
+//     console.log('this is me log', user);
+// }
 
 const Header = ({ currentUser, hidden, signOutStart }) => {
-    logme(currentUser)
+    // logme(currentUser)
     
     return(
         <HeaderContainer>
