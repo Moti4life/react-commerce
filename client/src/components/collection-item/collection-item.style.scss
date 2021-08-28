@@ -1,5 +1,5 @@
 .collection-item {
-    width: 22vw;
+    width: 22vw;    
     display: flex;
     flex-direction: column;
     height: 350px;
@@ -56,5 +56,19 @@
         // margin-right: 10px;
       }
     }
+}
+
+@media screen and (max-width: 600px) {
+  .collection-item {
+    width: 40vw;
+   
+    .custom-button{
+      opacity: 0.6;
+      display: block;
+    }
+
+    
   }
   
+
+}

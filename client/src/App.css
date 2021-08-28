@@ -4,7 +4,16 @@
 
 body{
   font-family: 'Open Sans Condensed', sans-serif;
-  padding: 1.5rem 5%;
+  padding: 1.5rem 40px;
+
+  
+
+}
+
+@media screen and (max-width: 600px) {
+  body{
+    padding: .5rem;
+  }
 }
 
 
@@ -46,3 +55,6 @@ body{
     transform: rotate(360deg);
   }
 } */
+
+
+

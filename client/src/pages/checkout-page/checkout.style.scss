@@ -1,5 +1,5 @@
 .checkout-page {
-    width: 55%;
+    width: 75%;
     min-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -37,6 +37,20 @@
     button {
       margin-left: auto;
       margin-top: 1rem;
+      width: 200px;
     }
 }
   
+
+@media screen and (max-width: 600px) {
+  .checkout-page {
+    width: 90%;
+    margin: auto;
+
+    button {
+      margin: auto;
+      width: 60%;
+      margin-top: 1rem;
+    }
+  }
+}

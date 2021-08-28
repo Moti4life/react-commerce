@@ -1,6 +1,26 @@
 .sign-in-and-up{
-    max-width: 700px;
-    display: flex;
-    justify-content: space-between;
-    margin: 2rem auto;
+    // max-width: 700px;
+    // display: flex;
+    // justify-content: space-between;
+    // margin: 2rem auto;
+        max-width: 700px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 40px;
+        justify-items: center;
+}
+
+@media screen and (max-width: 600px) {
+    .sign-in-and-up{
+        // width: 80%;
+        // display: flex;
+        // justify-content: space-between;
+        // margin: 2rem auto;
+        width: 90%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        
+    }
 }

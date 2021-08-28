@@ -22,6 +22,7 @@ import CheckoutPage from './pages/checkout-page/checkout.component';
 
 // style
 import './App.css';
+// import { GlobalStyle } from './global.style';
 
 const App = ({ checkSession, currentUser }) => {
   
@@ -40,6 +41,7 @@ const App = ({ checkSession, currentUser }) => {
 
   return (
     <div>
+      {/* <GlobalStyle /> */}
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />

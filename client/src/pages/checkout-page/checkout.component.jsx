@@ -39,7 +39,7 @@ const CheckoutPage = ({cartItems, total}) => (
             <span>
                 *Use the ff: to test creditCard for payment*
                 <br />
-                4242424242424242 - exp 1/23 - 123
+                4242 4242 4242 4242 - exp 1/23 - 123
             </span>
         </div>
         <StripeCheckoutButton price={total} />
