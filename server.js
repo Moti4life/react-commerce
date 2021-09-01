@@ -3,6 +3,8 @@ import path from 'path'
 import dotenv from 'dotenv'
 const __dirname = path.resolve();
 
+import compression from 'compression';
+
 // https://nodejs.org/docs/latest-v15.x/api/esm.html#esm_no_filename_or_dirname
 // import { fileURLToPath } from 'url';
 // import { dirname } from 'path';
@@ -25,8 +27,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 const app = express()
 const port = process.env.PORT || 5000
 
+//app use
+app.use(compression())
 app.use(express.urlencoded( { extended: true } ))
 app.use(express.json())
+
 
 if (process.env.NODE_ENV == 'production'){
     app.use(express.static( path.join(__dirname, 'client/build' )))
