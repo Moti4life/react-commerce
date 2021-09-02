@@ -4,8 +4,9 @@ import dotenv from 'dotenv'
 const __dirname = path.resolve();
 
 import compression from 'compression';
+import enforce from 'express-sslify'
 
-// https://nodejs.org/docs/latest-v15.x/api/esm.html#esm_no_filename_or_dirname
+/* // https://nodejs.org/docs/latest-v15.x/api/esm.html#esm_no_filename_or_dirname
 // import { fileURLToPath } from 'url';
 // import { dirname } from 'path';
 
@@ -14,7 +15,7 @@ import compression from 'compression';
 
 // or much better for ES6
 // import path from 'path'
-// const __dirname = path.resolve();
+// const __dirname = path.resolve(); */
 
 if (process.env.NODE_ENV != 'production') {
     dotenv.config()
@@ -31,7 +32,7 @@ const port = process.env.PORT || 5000
 app.use(compression())
 app.use(express.urlencoded( { extended: true } ))
 app.use(express.json())
-
+app.use(enforce.HTTPS( { trustProtoHeader: true } ))
 
 if (process.env.NODE_ENV == 'production'){
     app.use(express.static( path.join(__dirname, 'client/build' )))
@@ -47,6 +48,10 @@ app.listen(port, (error) => {
     console.log('app running on port: ', port);
     // console.log(process.env.POGI_STRING);
     //console.log(path.join(__dirname, 'client/build', 'index.html'))
+})
+
+app.get('/service-worker.js', (req, res) => {
+    res.sendFile(path.resolve( __dirname, '..', 'build', 'service-worker.js' ))
 })
 
 app.post('/payment', (req, res) => {
